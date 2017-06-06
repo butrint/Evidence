@@ -1,0 +1,46 @@
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\bin\Debug\Evidence.exe.config
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\bin\Debug\Evidence.exe
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\bin\Debug\Evidence.pdb
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\bin\Debug\MySql.Data.dll
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\Evidence.csprojResolveAssemblyReference.cache
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\EvidenceWindow.g.cs
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\MainWindow.g.cs
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\App.g.cs
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\Evidence_MarkupCompile.cache
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\Evidence_MarkupCompile.lref
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\EvidenceWindow.baml
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\MainWindow.baml
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\Evidence.g.resources
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\Evidence.Properties.Resources.resources
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\Evidence.csproj.GenerateResource.Cache
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\Evidence.exe
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\Evidence.pdb
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\bin\Debug\Evidence.exe.config
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\obj\Debug\Evidence.exe
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\obj\Debug\Evidence.pdb
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\bin\Debug\Evidence.exe
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\bin\Debug\Evidence.pdb
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\obj\Debug\Evidence.csprojResolveAssemblyReference.cache
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\obj\Debug\EvidenceWindow.g.cs
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\obj\Debug\MainWindow.g.cs
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\obj\Debug\App.g.cs
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\obj\Debug\Evidence_MarkupCompile.cache
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\obj\Debug\Evidence_MarkupCompile.lref
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\obj\Debug\EvidenceWindow.baml
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\obj\Debug\MainWindow.baml
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\obj\Debug\Evidence.g.resources
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\obj\Debug\Evidence.Properties.Resources.resources
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\obj\Debug\Evidence.csproj.GenerateResource.Cache
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\bin\Debug\EntityFramework.dll
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\bin\Debug\MySql.Data.dll
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\bin\Debug\MySql.Data.Entity.EF6.dll
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\bin\Debug\EntityFramework.xml
+C:\Users\yllka\Documents\Visual Studio 2015\Projects\Evidence\Evidence\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\bin\Debug\EntityFramework.dll
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\bin\Debug\MySql.Data.Entity.EF6.dll
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\bin\Debug\EntityFramework.xml
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\AdminWindow.g.cs
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\AdminWindow.baml

@@ -1,0 +1,38 @@
+﻿<Window x:Class="Evidence.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Evidence"
+        mc:Ignorable="d"
+        Title="AdminWindow" Height="400" Width="900">
+    <Grid>
+        <DataGrid x:Name="gridTodaySubs" ItemsSource="{Binding scheduler}" HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top" Height="258" Width="872" AutoGenerateColumns="False" CanUserAddRows="False" MouseDown="gridTodaySubs_MouseLeftButtonDown">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="*" Header="Profesori" Binding="{Binding username}" IsReadOnly="True"/>
+                <DataGridTextColumn Width="*" Header="Lenda" Binding="{Binding subject}" IsReadOnly="True"/>
+                <DataGridTextColumn Width="*" Header="L / U" Binding="{Binding lush}" IsReadOnly="True"/>
+                <DataGridTextColumn Width="*" Header="Koha e fillimit" Binding="{Binding start_Time}" IsReadOnly="True" />
+                <DataGridTextColumn Width="*" Header="Koha e mbarimit" Binding="{Binding end_Time}" IsReadOnly="True"/>
+                <DataGridTemplateColumn Width="0.3*" Header="Aktive">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox Name="Chk" Checked="Chk_Checked" Unchecked="Chk_Unchecked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="0.3*" Header="Fillo">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="StartSubject">Fillo</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Label x:Name="lblCurrUser" Content="Emri Mbiemri" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="155" Height="38" FontSize="20"/>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="807,33,0,0" VerticalAlignment="Top" Width="75"/>
+        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="326,33,0,0" VerticalAlignment="Top" Width="120"/>
+    </Grid>
+</Window>
