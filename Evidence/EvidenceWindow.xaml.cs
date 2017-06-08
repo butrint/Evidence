@@ -42,8 +42,9 @@ namespace Evidence
             user_ID = idProf;
             p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
             InitializeComponent();
-            string nowQuery = "SELECT NOW()";
-            Methods.nowInMysql(nowQuery, now);
+
+            now = Methods.datetimeInMysql();
+            
 
             stopVirtualWifi();
             string cmbFirstItem = "Zgjedhni Lenden...";
@@ -169,7 +170,7 @@ namespace Evidence
         {
             e.Row.Header = (e.Row.GetIndex()+1).ToString();
         }
-
+        
         private static void stopVirtualWifi()
         {
             p.StartInfo.FileName = "netsh";
@@ -183,7 +184,7 @@ namespace Evidence
             }
             catch { }
         }
-
+        
         private void prepareVirtualWifi()
         {
             p.StartInfo.FileName = "netsh";
@@ -198,6 +199,7 @@ namespace Evidence
             }
             catch { }
         }
+
         private void setVirtualWifi()
         {
             string subject="Lenda";
@@ -225,6 +227,7 @@ namespace Evidence
             }
             catch { }
         }
+
         private static void startVirtualWifi()
         {
             p.StartInfo.FileName = "netsh";

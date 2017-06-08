@@ -6,6 +6,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace Evidence
 {
@@ -14,8 +16,10 @@ namespace Evidence
         private static string myConnectionString = "Data Source=localhost;Initial Catalog=vijueshmeria;User ID=root;Password=";
         //private static MySqlConnection myConnection = new MySqlConnection(myConnectionString);
         //private static MySqlCommand myCommand = (MySqlCommand)myConnection.CreateCommand();
-        public static string nowInMysql(string query, DateTime now)
+        public static DateTime datetimeInMysql()
         {
+            string query = "SELECT NOW()";
+            DateTime now = new DateTime();
             MySqlConnection myConnection = new MySqlConnection(myConnectionString);
             MySqlCommand myCommand = (MySqlCommand)myConnection.CreateCommand();
 
@@ -42,7 +46,7 @@ namespace Evidence
                 }
             }
             catch { }
-            return now.ToString("yyyy-mm-dd");
+            return now;
         }
         public static void fillCombo(ComboBox cmb, string query, string cmbFirstItem)
         {
@@ -79,7 +83,7 @@ namespace Evidence
 
         public static void fillGridTodaySubsProfs(DataGrid dtg, string query)
         {
-            List<scheduler> scheduler = new List<scheduler>();
+            ObservableCollection<scheduler> scheduler = new ObservableCollection<scheduler>();
             MySqlConnection myConnection = new MySqlConnection(myConnectionString);
             MySqlCommand myCommand = (MySqlCommand)myConnection.CreateCommand();
             myCommand.CommandText = query;
@@ -110,6 +114,7 @@ namespace Evidence
                 //MessageBox.Show(ex.Message);
             }
             //tbName.OrderBy(i => i.ID);
+            scheduler.OrderBy(a => a.start_Time);
             dtg.ItemsSource = scheduler;
         }
 
@@ -150,10 +155,15 @@ namespace Evidence
             }
         }
 
+        public static void dekanisSubjectView()
+        {
+            MessageBox.Show("wtf+");
+        }
+
         public static scheduler SubClosestToDate(string prof_ID)
         {
-            string query = "SELECT * FROM scheduler sch WHERE start_time BETWEEN CURDATE() AND timestamp(DATE_ADD(NOW(), INTERVAL 30 MINUTE)) AND user_id='" + prof_ID+ "' ORDER BY start_time DESC LIMIT 1";
-            
+            string query = "SELECT * FROM scheduler sch WHERE start_time BETWEEN CURDATE() AND timestamp(DATE_ADD(NOW(), INTERVAL 30 MINUTE)) AND user_id='" + prof_ID + "' ORDER BY start_time DESC LIMIT 1";
+
             scheduler sch = new scheduler();
             MySqlConnection myConnection = new MySqlConnection(myConnectionString);
             MySqlCommand myCommand = (MySqlCommand)myConnection.CreateCommand();
@@ -176,7 +186,7 @@ namespace Evidence
                         sch.user_ID = myReader.GetInt32(6);
                         sch.subject_ID = myReader.GetInt32(7);
                     }
-                        //tbName.Add(new dbTablesIdName() { ID = myReader.GetInt32(0), Name = myReader.GetString(1) });
+                    //tbName.Add(new dbTablesIdName() { ID = myReader.GetInt32(0), Name = myReader.GetString(1) });
 
                 }
                 finally
@@ -224,6 +234,115 @@ namespace Evidence
             //tbName.OrderBy(i => i.ID);
             dtg.ItemsSource = students;
         }
+        
+        public static List<dynamic> selectFromDbs(string query)
+        {
+            List<dynamic> lst = new List<dynamic>();
+            MySqlConnection myConnection = new MySqlConnection(myConnectionString);
+            MySqlCommand myCommand = (MySqlCommand)myConnection.CreateCommand();
+
+            myCommand.CommandText = query;
+            try
+            {
+                myConnection.Open();
+                MySqlDataReader myReader = myCommand.ExecuteReader();
+                try
+                {
+                    while (myReader.Read())
+                        for (int i = 0; i < myReader.FieldCount; i++)
+                            lst.Add(myReader.GetValue(i));
+                }
+                finally
+                {
+                    myReader.Close();
+                    myConnection.Close();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Për momentin lidhja dështoi. Provoni më vonë");
+                //MessageBox.Show(ex.Message);
+            }
+
+            return lst;
+        }
+
+        public static void updateOrInsertIntoTable(string query)
+        {
+            MySqlConnection myConnection = new MySqlConnection(myConnectionString);
+            MySqlCommand myCommand = (MySqlCommand)myConnection.CreateCommand();
+
+            myCommand.CommandText = query;
+
+            try
+            {
+                myConnection.Open();
+                MySqlDataReader myReader = myCommand.ExecuteReader();
+                try
+                {
+                    while (myReader.Read()) { }
+                }
+                finally
+                {
+                    myReader.Close();
+                    myConnection.Close();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Për momentin lidhja dështoi. Provoni më vonë");
+                //MessageBox.Show(ex.Message);
+            }
+        }
+        
+        public static DateTime startTimeOfSub(string query)
+        {
+            DateTime setStartTime = new DateTime();
+            MySqlConnection myConnection = new MySqlConnection(myConnectionString);
+            MySqlCommand myCommand = (MySqlCommand)myConnection.CreateCommand();
+
+            
+            try
+            {
+                myCommand.CommandText = query;
+                try
+                {
+                    myConnection.Open();
+                    MySqlDataReader myReader = myCommand.ExecuteReader();
+                    try
+                    {
+                        while (myReader.Read())
+                            setStartTime = myReader.GetDateTime(0);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                    }
+
+                    finally
+                    {
+                        myReader.Close();
+                        myConnection.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+            catch { }
+            return setStartTime;
+        }
+
+        public static DataGridRow GetGridRow(DataGrid dtg, int index)
+        {
+            DataGridRow row = (DataGridRow)dtg.ItemContainerGenerator.ContainerFromIndex(index);
+            if (row == null)
+            {
+
+            }
+            return row;
+        }
     }
 
     public class dbTablesIdName
@@ -242,8 +361,9 @@ namespace Evidence
 
     }
 
-    public class scheduler
+    public class scheduler : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         public int schedule_ID { get; set; }
         public DateTime start_Time { get; set; }
         public DateTime end_Time { get; set; }
@@ -257,6 +377,36 @@ namespace Evidence
         public string username { get; set; }
         public int subject_ID { get; set; }
         public string subject { get; set; }
-        public bool subActive { get; set; }
+        private bool subAct = false;
+        public bool subActive
+        {
+            get
+            {
+                return subAct;
+            }
+            set
+            {
+                subAct = value;
+            }
+        }
+        private bool isEnabl = true;
+        public bool isEnabled
+        {
+            get { return this.isEnabl; }
+            set
+            {
+                if (this.isEnabl != value)
+                {
+                    this.isEnabl = value;
+                    this.NotifyPropertyChanged("isEnabled");
+                }
+            }
+        }
+
+        public void NotifyPropertyChanged(string propName)
+        {
+            if (this.PropertyChanged != null)
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+        }
     }
 }

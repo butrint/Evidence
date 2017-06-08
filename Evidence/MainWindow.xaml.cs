@@ -121,8 +121,8 @@ namespace Evidence
                 bool res = ReadMyData(myConnectionString, username, passwordMD5);
                 if (res)
                 {
-                    AdminWindow eW = new AdminWindow(idPerdoruesi);
-                    eW.Show();
+                    AdminWindow aW = new AdminWindow(idPerdoruesi);
+                    aW.Show();
                     this.Close();
                 }
                 else

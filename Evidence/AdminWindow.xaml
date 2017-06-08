@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="AdminWindow" Height="400" Width="900">
     <Grid>
-        <DataGrid x:Name="gridTodaySubs" ItemsSource="{Binding scheduler}" HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top" Height="258" Width="872" AutoGenerateColumns="False" CanUserAddRows="False" MouseDown="gridTodaySubs_MouseLeftButtonDown">
+        <DataGrid x:Name="gridTodaySubs" ItemsSource="{Binding scheduler}" HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top" Height="258" Width="872" AutoGenerateColumns="False" CanUserAddRows="False" MouseDown="gridTodaySubs_MouseLeftButtonDown" Background="#FFF0F0F0">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="*" Header="Profesori" Binding="{Binding username}" IsReadOnly="True"/>
                 <DataGridTextColumn Width="*" Header="Lenda" Binding="{Binding subject}" IsReadOnly="True"/>
@@ -21,14 +21,26 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="0.3*" Header="Fillo">
+                <DataGridTemplateColumn Width="0.6*" Header="Fillo">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Click="StartSubject">Fillo</Button>
+                            <Button Click="StartSubject" IsEnabled="{Binding isEnabled, UpdateSourceTrigger=PropertyChanged}">Fillo</Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding State}" Value="State1">
+                            <Setter Property="Background" Value="Red"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding State}" Value="State2">
+                            <Setter Property="Background" Value="Green"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
         </DataGrid>
 
         <Label x:Name="lblCurrUser" Content="Emri Mbiemri" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="155" Height="38" FontSize="20"/>
