@@ -1,9 +1,11 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using MySql.Data.MySqlClient;
+
 
 
 
@@ -22,12 +24,14 @@ namespace Evidence
         private static string idPerdoruesi;
         private static int idRoli;
         private bool conn = false;
+        
 
         //string myConnectionString = "Data Source=localhost;Initial Catalog=vijueshmeria;User ID=root;Password=";
 
         public MainWindow()
         {
             InitializeComponent();
+            /// Duhet me e fshi qet pjes .
             Username.Text = "Artan";
             Password.Password = "123456";
         }
@@ -94,9 +98,7 @@ namespace Evidence
         private void Panel_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
-            {
                 checkLogin();
-            }
         }
 
         private void checkLogin()
@@ -121,8 +123,21 @@ namespace Evidence
                 bool res = ReadMyData(myConnectionString, username, passwordMD5);
                 if (res)
                 {
-                    AdminWindow aW = new AdminWindow(idPerdoruesi);
-                    aW.Show();
+                    if (idRoli == 2)
+                    {
+                        AdminWindow aW = new AdminWindow(idPerdoruesi);
+                        aW.Show();
+                    }
+                    else if (idRoli == 3)
+                    {
+                        DekanisWindow dW = new DekanisWindow(idPerdoruesi);
+                        dW.Show();
+                    }
+                    else
+                    {
+                        AdminWindow aW = new AdminWindow(idPerdoruesi);
+                        aW.Show();
+                    }
                     this.Close();
                 }
                 else

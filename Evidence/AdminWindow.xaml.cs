@@ -23,16 +23,15 @@ namespace Evidence
     /// </summary>
     public partial class AdminWindow : Window
     {
-        private static string myConnectionString = "Data Source=localhost;Initial Catalog=vijueshmeria;User ID=root;Password=";
+        //private static string myConnectionString = "Data Source=localhost;Initial Catalog=vijueshmeria;User ID=root;Password=";
         private static DateTime now = new DateTime();
-        private static string today;
         private static string user_ID;
-        private static TimeSpan startTimeSpan = TimeSpan.Zero;
-        private static TimeSpan periodTimeSpan = TimeSpan.FromMinutes(2);
-        private static Color gr = Color.FromRgb(50, 205, 50);
-        private static SolidColorBrush green = new SolidColorBrush(gr);
-        private static Color rd = Color.FromRgb(240, 20, 20);
-        private static SolidColorBrush red = new SolidColorBrush(rd);
+        private static SolidColorBrush gray = Methods.getColor("gray");
+        private static SolidColorBrush green = Methods.getColor("green");
+        private static SolidColorBrush red = Methods.getColor("red");
+        private static SolidColorBrush orange = Methods.getColor("orange");
+        private static SolidColorBrush gold = Methods.getColor("gold");
+        private static ObservableCollection<TodayAllData> todayAllData = new ObservableCollection<TodayAllData>();
 
         public AdminWindow(string idAdmin)
         {
@@ -40,68 +39,53 @@ namespace Evidence
             InitializeComponent();
             user_ID = idAdmin;
             string query = "SELECT * FROM `scheduler` WHERE DATE_FORMAT(start_time, '%Y-%m-%d') = CURRENT_DATE();";
-            Methods.fillGridTodaySubsProfs(gridTodaySubs, query);
+            todayAllData = Methods.getTodaySubsProfs(query);
+            query = "SELECT name, surname FROM users WHERE user_id=" + user_ID;
+            List<dynamic> tmpList = Methods.selectFromDbs(query);
+            string name = tmpList[0];
+            string surname = tmpList[1];
+            lblCurrUser.Content = name + " " + surname;
             now = Methods.datetimeInMysql();
-        }
-
-        // Ekzekutohet cdo 5 minuta
-        System.Threading.Timer timer = new System.Threading.Timer((e) =>
-        {
-            Methods.dekanisSubjectView();
-        }, null, startTimeSpan, periodTimeSpan);
-
-
-        private void Chk_Checked(object sender, RoutedEventArgs e)
-        {
-            //CheckBox ck = (CheckBox)sender;
-            //activeStud += 1;
-            //student st = (student)gridStudents.CurrentCell.Item;
-            //st.Present = ck.IsChecked ?? false;
-            //MessageBox.Show(st.Present.ToString());
-            //lblStudActive.Content = "Studente te pranishem: " + activeStud.ToString();
-        }
-
-        private void Chk_Unchecked(object sender, RoutedEventArgs e)
-        {
-            //CheckBox ck = (CheckBox)sender;
-            //activeStud -= 1;
-            //student st = (student)gridStudents.CurrentCell.Item;
-            //st.Present = ck.IsChecked ?? false;
-            //MessageBox.Show(st.Present.ToString());
-            //lblStudActive.Content = "Studente te pranishem: " + activeStud.ToString();
+            gridTodaySubs.ItemsSource = todayAllData;
+            lblTodayDate.Content = Methods.selectFromDbs("SELECT DATE(NOW())")[0].ToString("yyyy-MM-dd");
         }
 
         void StartSubject(object sender, RoutedEventArgs e)
         {
             Button btnFillo = (Button)sender;
-            scheduler sch = (scheduler)gridTodaySubs.SelectedItem;
-            var row = (DataGridRow)gridTodaySubs.ItemContainerGenerator.ContainerFromIndex(gridTodaySubs.SelectedIndex);
-            string findIfLecHasFinished = "SELECT * FROM lecturetime WHERE schedule_id=" + sch.schedule_ID + ";";
-            List<dynamic> lectureList = Methods.selectFromDbs(findIfLecHasFinished);
-            
-            bool lectureWasHeld = lectureList.Any();
-
+            TodayAllData todayData = (TodayAllData)gridTodaySubs.SelectedItem;
+            todayData.lecHasBeenHeld();
+            bool lectureWasHeld = todayData.lecIsOver;
             //Color white = (Color)ColorConverter.ConvertFromString("Red");
             // 50,205,50 - limegreen
-            // 
-            Color white = Color.FromRgb(240, 20, 20);
-            SolidColorBrush whites = new SolidColorBrush(white);
-            row.Background = whites;
-
             Methods.selectFromDbs("SELECT * FROM scheduler");
             
-            int subject_ID = sch.subject_ID; //(int)cmbGroups.SelectedValue;
-            int lush_ID = sch.lush_ID; //(int)cmbLush.SelectedValue;
-            int group_ID = sch.group_ID; //(int)cmbSubjects.SelectedValue;
-            string subject = sch.subject;
-            string group = sch.group;
-            string lush = sch.lush;
+            int subject_ID = todayData.subject_ID; //(int)cmbGroups.SelectedValue;
+            int lush_ID = todayData.lush_ID; //(int)cmbLush.SelectedValue;
+            int group_ID = todayData.group_ID; //(int)cmbSubjects.SelectedValue;
+            string subject = todayData.subject;
+            string group = todayData.group;
+            string lush = todayData.lush;
             now = Methods.datetimeInMysql();
             DateTime maxLecDuration = new DateTime();
             double maxMinutesToEndSub = 30;
-            maxLecDuration = sch.end_Time.AddMinutes(maxMinutesToEndSub);
+            maxLecDuration = todayData.end_Time.AddMinutes(maxMinutesToEndSub);
+            bool canEndSub = false;
+            
+            if (todayData.subActive)
+            {
+                TimeSpan minToAdd = TimeSpan.FromMinutes(10);
+                TimeSpan minOfSubThatHasBeenHeld;
+                TimeSpan foreseenMinForSub;
+                foreseenMinForSub = todayData.end_Time.Subtract(todayData.start_Time);
+                minOfSubThatHasBeenHeld = (now.Subtract(todayData.hasStartedAt)).Add(minToAdd);
+                if (minOfSubThatHasBeenHeld.TotalMinutes >= foreseenMinForSub.TotalMinutes)
+                    canEndSub = true;
+                else
+                    MessageBox.Show("Me vjen keq nuk mund te mbyllni kete ore");
+            }
 
-            if (!sch.subActive && btnFillo.IsEnabled && !lectureWasHeld)
+            if (!todayData.subActive && btnFillo.IsEnabled && !lectureWasHeld)
             {
                 DateTime startTime = new DateTime();
                 TimeSpan compareStartToNow;
@@ -111,8 +95,8 @@ namespace Evidence
 
                 startTime = Methods.startTimeOfSub(startTimeQuery);
 
-                compareStartToNow = now.Subtract(startTime); //DateTime.Compare(now, startTime);
-                // mos harro me unkodu pjesen kjo osht veq per testim true
+                compareStartToNow = now.Subtract(startTime);
+                // mos harro me uncommentu pjesen kjo osht veq per testim true
                 if (true)//compareStartToNow.TotalMinutes >= -15 && compareStartToNow.TotalMinutes <= 15)
                 {
                     try
@@ -126,33 +110,50 @@ namespace Evidence
                                 "AND c.lush_id='" + lush_ID + "' AND c.group_id='" + group_ID + "'";
                             //Methods.fillDGTextbox(gridStudents, getStudOnGroup);
                             //int studentsCount = (gri.Items.Count);
-                            MessageBox.Show("Ora " + sch.subject + " filloi me sukses!");
-                            sch.subActive = true;
-                            string startoOren = "INSERT INTO lecturetime(start_time, end_time, schedule_id) VALUES('" + now.ToString("yyyy-MM-dd hh:mm:ss") + "', '" + maxLecDuration.ToString("yyyy-MM-dd hh:mm:ss") + "', " + sch.schedule_ID + ")";
+                            MessageBox.Show("Ora " + todayData.subject + " filloi me sukses!");
+                            todayData.subActive = true;
+                            string startoOren = "INSERT INTO lecturetime(start_time, end_time, automatic_ended, schedule_id) VALUES('" + now.ToString("yyyy-MM-dd hh:mm:ss") + "', '" + maxLecDuration.ToString("yyyy-MM-dd hh:mm:ss") + "', 1, " + todayData.schedule_ID + ")";
                             Methods.updateOrInsertIntoTable(startoOren);
+                            todayData.rowColor = gold;
+                            todayData.hasStartedAt = now;
                         }
                     }
                     catch { }
-                    btnFillo.Content = "Perfundo";
+                    todayData.btnContent = "Perfundo";
                 }
                 else if (compareStartToNow.TotalMinutes < -15)
                     MessageBox.Show("Me vjen keq!\n Eshte heret per ta filluar oren");
                 else
                     MessageBox.Show("Jeni Vonuar! Ju lutemi kerkoni leje nga dekani per te filluar kete ore.");
             }
-            else if(sch.subActive && btnFillo.IsEnabled)
+            else if (todayData.subActive && btnFillo.IsEnabled && canEndSub)
             {
                 string endTime = Methods.datetimeInMysql().ToString("yyyy-MM-dd hh:mm:ss");
-                  ///////////////////////////  UPDATE FUNKSIONI QE THIRRET PREJ Methods.cs \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-                 // Qeshtu e shkruni stringin edhe e thrrni funksionin me qat string variablat endTime edhe sch.schedule_ID  \\
+                ///////////////////////////  UPDATE FUNKSIONI QE THIRRET PREJ Methods.cs \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+                // Qeshtu e shkruni stringin edhe e thrrni funksionin me qat string variablat endTime edhe sch.schedule_ID  \\
                 // jon tdeklarume ma nalt.                                                                                    \\
-               /////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-                string mbaroOren = "UPDATE lecturetime SET end_time='"+endTime+"' WHERE schedule_id="+sch.schedule_ID;
+                /////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+                string mbaroOren = "UPDATE lecturetime SET end_time='" + endTime + "', automatic_ended='0' WHERE schedule_id=" + todayData.schedule_ID;
                 Methods.updateOrInsertIntoTable(mbaroOren);
-                sch.subActive = false;
-                MessageBox.Show("Ora " + sch.subject + " mbaroi me sukses!");
-                sch.isEnabled = false;
-                btnFillo.IsEnabled = false;
+                todayData.subActive = false;
+                todayData.lecIsOver = true;
+                MessageBox.Show("Ora " + todayData.subject + " mbaroi me sukses!");
+                todayData.isEnabled = false;
+                todayData.btnContent = "E perfunduar";
+                todayData.rowColor = green;
+                todayData.hasEndedAt = now;
+            }
+            else if (lectureWasHeld && (todayData.hasEndedAt.ToShortDateString() != "1/1/0001"))
+            {
+                todayData.lecIsOver = true;
+                todayData.isEnabled = false;
+                MessageBox.Show("Ora " + todayData.subject + " eshte mbajtur");
+                todayData.btnContent = "E perfunduar";
+                todayData.rowColor = green;
+            }
+            else if (todayData.hasEndedAt.ToShortDateString() == "1/1/0001")
+            {
+                MessageBox.Show("dsdss");
             }
         }
 

@@ -44,3 +44,5 @@ C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evid
 C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\AdminWindow.g.cs
 C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\AdminWindow.baml
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\DekanisWindow.g.cs
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\DekanisWindow.baml

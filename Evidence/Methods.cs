@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.ComponentModel;
@@ -16,6 +17,34 @@ namespace Evidence
         private static string myConnectionString = "Data Source=localhost;Initial Catalog=vijueshmeria;User ID=root;Password=";
         //private static MySqlConnection myConnection = new MySqlConnection(myConnectionString);
         //private static MySqlCommand myCommand = (MySqlCommand)myConnection.CreateCommand();
+        private static Color gr = Color.FromRgb(50, 205, 50);
+        public static SolidColorBrush green = new SolidColorBrush(gr);
+        private static Color rd = Color.FromRgb(240, 20, 20);
+        public static SolidColorBrush red = new SolidColorBrush(rd);
+        private static Color gra = (Color)ColorConverter.ConvertFromString("#FFF0F0F0");
+        public static SolidColorBrush gray = new SolidColorBrush(gra);
+        private static Color org = Color.FromRgb(255, 69, 0);
+        public static SolidColorBrush orange = new SolidColorBrush(org);
+        private static Color gld = Color.FromRgb(255, 223, 0);
+        public static SolidColorBrush gold = new SolidColorBrush(gld);
+        
+
+
+        public static SolidColorBrush getColor(string color)
+        {
+            SolidColorBrush brush = new SolidColorBrush();
+            green.Freeze(); red.Freeze(); orange.Freeze(); gold.Freeze(); brush.Freeze();
+            switch (color)
+            {
+                case "gray" : return gray;
+                case "red" : return red;
+                case "green" : return green;
+                case "orange": return orange;
+                case "gold": return gold;
+                default : return brush;
+            }
+        }
+
         public static DateTime datetimeInMysql()
         {
             string query = "SELECT NOW()";
@@ -81,8 +110,40 @@ namespace Evidence
             cmb.ItemsSource = tbName;
         }
 
-        public static void fillGridTodaySubsProfs(DataGrid dtg, string query)
+
+
+        public static void checkIfSubjectHasStarted(ObservableCollection<TodayAllData> todayAllData)
         {
+            DateTime now = datetimeInMysql();
+            foreach (var todayData in todayAllData)
+            {
+                todayData.lecHasBeenHeld();
+                string lecHasBeenHeld = "SELECT * FROM lecturetime WHERE shcedule_id=" + todayData.schedule_ID;
+                int nowIsGreaterThanStartTime = DateTime.Compare(now, todayData.start_Time);
+                if ((nowIsGreaterThanStartTime > 0) && (!todayData.subActive) && (!todayData.lecIsOver))
+                    if (todayData.rowColor != red)
+                    {
+                        todayData.rowColor = red;
+                        todayData.rowColor.Freeze();
+                    }
+                    else if (todayData.subActive)
+                        if (todayData.rowColor != gold)
+                        {
+                            todayData.rowColor = gold;
+                            todayData.rowColor.Freeze();
+                        }
+                        else if (todayData.lecIsOver)
+                            if (todayData.rowColor != green)
+                            {
+                                todayData.rowColor = green;
+                                todayData.rowColor.Freeze();
+                            }
+            }
+        }
+
+        public static ObservableCollection<TodayAllData> getTodaySubsProfs(string query)
+        {
+            ObservableCollection<TodayAllData> dtgPr = new ObservableCollection<TodayAllData>();
             ObservableCollection<scheduler> scheduler = new ObservableCollection<scheduler>();
             MySqlConnection myConnection = new MySqlConnection(myConnectionString);
             MySqlCommand myCommand = (MySqlCommand)myConnection.CreateCommand();
@@ -96,9 +157,9 @@ namespace Evidence
                     int i = 0;
                     while (myReader.Read())
                     {
-                        scheduler.Add(new scheduler() { schedule_ID = myReader.GetInt32(0), start_Time = myReader.GetDateTime(1), end_Time = myReader.GetDateTime(2), group_ID = myReader.GetInt32(3), hall_ID = myReader.GetInt32(4), lush_ID = myReader.GetInt32(5), user_ID = myReader.GetInt32(6), subject_ID = myReader.GetInt32(7) });
+                        dtgPr.Add(new TodayAllData() { schedule_ID = myReader.GetInt32(0), start_Time = myReader.GetDateTime(1), end_Time = myReader.GetDateTime(2), group_ID = myReader.GetInt32(3), hall_ID = myReader.GetInt32(4), lush_ID = myReader.GetInt32(5), user_ID = myReader.GetInt32(6), subject_ID = myReader.GetInt32(7) });
                         int sched_id = myReader.GetInt32(0);
-                        GetFNamesFrmSched(scheduler[i], sched_id);
+                        GetFNamesFrmSched(dtgPr[i], sched_id);
                         i++;
                     }
                 }
@@ -114,8 +175,8 @@ namespace Evidence
                 //MessageBox.Show(ex.Message);
             }
             //tbName.OrderBy(i => i.ID);
-            scheduler.OrderBy(a => a.start_Time);
-            dtg.ItemsSource = scheduler;
+            dtgPr.OrderBy(a => a.start_Time);
+            return dtgPr;
         }
 
         public static void GetFNamesFrmSched(scheduler sch, int schedule_id)
@@ -140,7 +201,6 @@ namespace Evidence
                         sch.subject = myReader.GetString(4);
                     }
                     //tbName.Add(new dbTablesIdName() { ID = myReader.GetInt32(0), Name = myReader.GetString(1) });
-
                 }
                 finally
                 {
@@ -157,7 +217,7 @@ namespace Evidence
 
         public static void dekanisSubjectView()
         {
-            MessageBox.Show("wtf+");
+            
         }
 
         public static scheduler SubClosestToDate(string prof_ID)
@@ -187,7 +247,6 @@ namespace Evidence
                         sch.subject_ID = myReader.GetInt32(7);
                     }
                     //tbName.Add(new dbTablesIdName() { ID = myReader.GetInt32(0), Name = myReader.GetString(1) });
-
                 }
                 finally
                 {
@@ -337,10 +396,6 @@ namespace Evidence
         public static DataGridRow GetGridRow(DataGrid dtg, int index)
         {
             DataGridRow row = (DataGridRow)dtg.ItemContainerGenerator.ContainerFromIndex(index);
-            if (row == null)
-            {
-
-            }
             return row;
         }
     }
@@ -356,14 +411,12 @@ namespace Evidence
         public int ID { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-
         public bool Present { get; set; }
 
     }
-
-    public class scheduler : INotifyPropertyChanged
+    
+    public class scheduler
     {
-        public event PropertyChangedEventHandler PropertyChanged;
         public int schedule_ID { get; set; }
         public DateTime start_Time { get; set; }
         public DateTime end_Time { get; set; }
@@ -377,6 +430,28 @@ namespace Evidence
         public string username { get; set; }
         public int subject_ID { get; set; }
         public string subject { get; set; }
+    }
+
+    public class TodayAllData : scheduler, INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void getValuesFromScheduler(scheduler sch)
+        {
+            this.schedule_ID = sch.schedule_ID;
+            this.start_Time = sch.start_Time;
+            this.end_Time = sch.end_Time;
+            this.group_ID = sch.group_ID;
+            this.group = sch.group;
+            this.hall_ID = sch.hall_ID;
+            this.hall = sch.hall;
+            this.lush_ID = sch.lush_ID;
+            this.lush = sch.lush;
+            this.user_ID = sch.user_ID;
+            this.username = sch.username;
+            this.subject_ID = sch.subject_ID;
+            this.subject = sch.subject;
+        }
+
         private bool subAct = false;
         public bool subActive
         {
@@ -402,11 +477,58 @@ namespace Evidence
                 }
             }
         }
+        private Brush _rowColor = Methods.getColor("gray");
+        public Brush rowColor
+        {
+            get { return this._rowColor; }
+            set
+            {
+                if (this._rowColor != value)
+                {
+                    this._rowColor = value;
+                    this.NotifyPropertyChanged("rowColor");
+                }
+            }
+        }
+        private bool _lecIsOver = false;
+
+        public bool lecIsOver
+        {
+            get { return _lecIsOver; }
+            set {
+                    if (this.lecIsOver != value)
+                        this._lecIsOver = value;
+                }
+        }
+
+        public DateTime hasStartedAt;
+        public DateTime hasEndedAt;
+
+        public void lecHasBeenHeld()
+        {
+            List<dynamic> lst = new List<dynamic>();
+            string query = "SELECT * FROM lecturetime WHERE schedule_id=" + this.schedule_ID;
+            lst = Methods.selectFromDbs(query);
+            this._lecIsOver = lst.Any();
+        }
 
         public void NotifyPropertyChanged(string propName)
         {
             if (this.PropertyChanged != null)
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+        }
+        private string _btnContent = "Fillo";
+        public string btnContent
+        {
+            get { return this._btnContent; }
+            set
+            {
+                if (this._btnContent != value)
+                {
+                    this._btnContent = value;
+                    this.NotifyPropertyChanged("btnContent");
+                }
+            }
         }
     }
 }
