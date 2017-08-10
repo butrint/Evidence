@@ -2,35 +2,60 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" WindowState="Maximized"
         xmlns:local="clr-namespace:Evidence"
         mc:Ignorable="d"
-        Title="EvidenceWindow" Height="300" Width="729.66">
+        Title="EvidenceWindow" Height="300" Width="925.206" MinHeight="400" MinWidth="800" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="CheckBox" x:Key="EvidenceCheckBox">
+            <Setter Property="Opacity" Value="1"/>
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
     <Grid>
-        <Label x:Name="lblSubjects" Content="Lenda" Target="cmbSubjects" HorizontalAlignment="Left" Margin="21,10,0,0" VerticalAlignment="Top" Width="89"/>
-        <ComboBox x:Name="cmbSubjects" HorizontalAlignment="Left" Margin="21,35,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cmbSubjects_SelectionChanged" SelectedIndex="0"/>
-        <Label x:Name="lblLush" Content="Lloji Lendes" Target="cmbLush" HorizontalAlignment="Left" Margin="191,10,0,0" VerticalAlignment="Top" Width="73"/>
-        <ComboBox x:Name="cmbLush" HorizontalAlignment="Left" Margin="191,35,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cmbLush_SelectionChanged" SelectedIndex="0" />
-        <Label x:Name="lblGroups" Content="Grupi" Target="cmbGroups" HorizontalAlignment="Left" Margin="369,10,0,0" VerticalAlignment="Top" Width="81"/>
-        <ComboBox x:Name="cmbGroups" HorizontalAlignment="Left" Margin="369,35,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="0"/>
-        <DataGrid x:Name="gridStudents" ItemsSource="{Binding students}" HorizontalAlignment="Left" Margin="10,91,0,0" AutoGenerateColumns="False" VerticalAlignment="Top" Height="168" Width="702" CanUserAddRows="False" LoadingRow="gridStudents_LoadingRow" CurrentCellChanged="gridStudents_CurrentCellChanged" TargetUpdated="gridStudents_TargetUpdated">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.8*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF65B497" Offset="0"/>
+                <GradientStop Color="White" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <DataGrid Grid.Row="1" x:Name="gridStudents" ItemsSource="{Binding students}" Margin="20" AutoGenerateColumns="False" CanUserAddRows="False" LoadingRow="gridStudents_LoadingRow" CurrentCellChanged="gridStudents_CurrentCellChanged" TargetUpdated="gridStudents_TargetUpdated">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="*" Header="ID" Binding="{Binding ID}" IsReadOnly="True"/>
+                <DataGridTextColumn Width="*" Header="ID" Binding="{Binding Num_ID}" IsReadOnly="True"/>
                 <DataGridTextColumn Width="*" Header="Emri" Binding="{Binding Name}" IsReadOnly="True"/>
                 <DataGridTextColumn Width="*" Header="Mbiemri" Binding="{Binding Surname}" IsReadOnly="True"/>
                 <DataGridTemplateColumn Width="0.3*" Header="Check">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox Name="Chk" Checked="Chk_Checked" Unchecked="Chk_Unchecked"/>
+                            <CheckBox Name="Chk" Style="{StaticResource EvidenceCheckBox}" IsChecked="{Binding isPresent, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <!--<DataGridCheckBoxColumn Width="0.3*" Header="Check" Binding="{Binding Present, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged }" />-->
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="btnStart" Content="Fillo" HorizontalAlignment="Left" Margin="587,35,0,0" VerticalAlignment="Top" Width="75" Height="22" Click="btnStart_Click"/>
-        <Label x:Name="lblAllStud" Content="" HorizontalAlignment="Left" Margin="10,62,0,0" VerticalAlignment="Top" Height="29" Width="301"/>
-        <Label x:Name="lblStudActive" Content="" HorizontalAlignment="Left" Margin="514,65,0,0" VerticalAlignment="Top" Width="198"/>
+        <Label x:Name="lblAllStud" Grid.Row="1" Content="" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Stretch"/>
+        <Label x:Name="lblStudActive" Grid.Row="1" Content="" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Top" HorizontalContentAlignment="Stretch"/>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Label x:Name="lblSubjects" Grid.Row="0" Grid.Column="0" Content="Lenda" Target="cmbSubjects" HorizontalAlignment="Left" Margin="20 0 0 40" VerticalAlignment="Bottom" Width="120" />
+            <ComboBox x:Name="cmbSubjects" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="20 0 0 20" VerticalAlignment="Bottom" Width="120" SelectionChanged="cmbSubjects_SelectionChanged" SelectedIndex="0"/>
+            <Label x:Name="lblLush" Grid.Row="0" Grid.Column="1" Content="Lloji Lendes" Target="cmbLush" HorizontalAlignment="Left" Margin="20 0 0 40" VerticalAlignment="Bottom" Width="120" />
+            <ComboBox x:Name="cmbLush" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="20 0 0 20" VerticalAlignment="Bottom" Width="120" SelectedIndex="0" />
+            <Label x:Name="lblGroups" Grid.Row="0" Grid.Column="2" Content="Grupi" Target="cmbGroups" HorizontalAlignment="Left" Margin="20 0 0 40" VerticalAlignment="Bottom" Width="120" />
+            <ComboBox x:Name="cmbGroups" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" Margin="20,0,0,20" VerticalAlignment="Bottom" Width="120" SelectedIndex="0"/>
+            <Button x:Name="btnStart" Grid.Row="0" Grid.Column="3" Content="Fillo" HorizontalAlignment="Right" Margin="0 0 20 20" Width="100" VerticalAlignment="Bottom" Click="btnStart_Click" Height="22" />
+        </Grid>
 
     </Grid>
 </Window>

@@ -29,10 +29,11 @@ namespace Evidence
         public DekanisWindow(string idDekani)
         {
             InitializeComponent();
-            string query = "SELECT * FROM `scheduler` WHERE DATE_FORMAT(start_time, '%Y-%m-%d') = CURRENT_DATE();";
+            string query = "CALL getAllTodaySubs();";//"SELECT * FROM `scheduler` WHERE DATE_FORMAT(start_time, '%Y-%m-%d') = CURRENT_DATE();";
             todayAllData = Methods.getTodaySubsProfs(query);
             now = Methods.datetimeInMysql();
             gridTodaySubs.ItemsSource = todayAllData;
+            Methods.checkIfSubjectHasStarted(todayAllData);
         }
 
         // Ekzekutohet cdo 5 minuta
@@ -43,6 +44,20 @@ namespace Evidence
             canCheckSubs = true;
         }, null, startTimeSpan, periodTimeSpan);
 
-
+        private void gridTodaySubs_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender != null)
+            {
+                DataGrid grid = sender as DataGrid;
+                if (grid != null && grid.SelectedItems != null && grid.SelectedItems.Count == 1)
+                {
+                    DataGridRow dgr = grid.ItemContainerGenerator.ContainerFromItem(grid.SelectedItem) as DataGridRow;
+                    if (!dgr.IsMouseOver)
+                    {
+                        (dgr as DataGridRow).IsSelected = false;
+                    }
+                }
+            }
+        }
     }
 }

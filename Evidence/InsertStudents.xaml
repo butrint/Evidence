@@ -1,0 +1,103 @@
+﻿<Window x:Class="Evidence.InsertStudents"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Evidence"
+        mc:Ignorable="d"
+        Title="Studentët" Height="640" Width="1015" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="logo evdienca.png">
+    <Grid Margin="0,0,0,5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="268*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="txtstudent_id" HorizontalAlignment="Left" Height="24" Margin="138,146,0,0" TextWrapping="Wrap" Text="{Binding SelectedItem.ID, ElementName=dGrid, Mode=OneWay}" VerticalAlignment="Top" Width="148" Grid.ColumnSpan="2" IsReadOnly="True" IsEnabled="False"/>
+        <TextBox x:Name="txtnum_id" HorizontalAlignment="Left" Height="24" Margin="138,186,0,0" TextWrapping="Wrap" Text="{Binding SelectedItem.Num_ID, ElementName=dGrid, Mode=OneWay}" VerticalAlignment="Top" Width="148" Grid.ColumnSpan="2" TextChanged="txtnum_id_TextChanged"/>
+        <TextBox x:Name="txtname" HorizontalAlignment="Left" Height="24" Margin="138,224,0,0" TextWrapping="Wrap" Text="{Binding SelectedItem.Name, ElementName=dGrid, Mode=OneWay}" VerticalAlignment="Top" Width="148" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txtsurname" HorizontalAlignment="Left" Height="24" Margin="138,262,0,0" TextWrapping="Wrap" Text="{Binding SelectedItem.Surname, ElementName=dGrid, Mode=OneWay}" VerticalAlignment="Top" Width="148" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txtemail" HorizontalAlignment="Left" Height="22" Margin="138,304,0,0" TextWrapping="Wrap" Text="{Binding SelectedItem.Email, ElementName=dGrid, Mode=OneWay}" VerticalAlignment="Top" Width="148" Grid.ColumnSpan="2"/>
+        <DatePicker x:Name="dtPickerBday" HorizontalAlignment="Left" Margin="138,344,0,0" Text="{Binding SelectedItem.Birthday, StringFormat=dd.MM.yyyy,  ElementName=dGrid, Mode=OneWay}" VerticalAlignment="Top" Width="148" Height="24" Grid.ColumnSpan="2" >
+        </DatePicker>
+        <Label Grid.ColumnSpan="2" Content="ID" HorizontalAlignment="Left" Margin="70,146,0,0" VerticalAlignment="Top" Height="24" Width="64"/>
+        <Label Grid.ColumnSpan="2" Content="Numri ID" HorizontalAlignment="Left" Margin="70,186,0,0" VerticalAlignment="Top" Height="24" Width="64"/>
+        <Label Grid.ColumnSpan="2" Content="Emri" HorizontalAlignment="Left" Margin="70,224,0,0" VerticalAlignment="Top" Height="24" Width="64"/>
+        <Label Grid.ColumnSpan="2" Content="Mbiemri" HorizontalAlignment="Left" Margin="70,262,0,0" VerticalAlignment="Top" Height="24" Width="64"/>
+        <Label Grid.ColumnSpan="2" Content="Email" HorizontalAlignment="Left" Margin="70,304,0,0" VerticalAlignment="Top" Height="22" Width="64"/>
+        <Label Grid.ColumnSpan="2" Content="Datëlindja" HorizontalAlignment="Left" Margin="70,346,0,0" VerticalAlignment="Top" Height="22" Width="64"/>
+        <DataGrid x:Name="dGrid" LoadingRow="dGrid_LoadingRow" ItemsSource="{Binding students, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" CanUserAddRows="False" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="278" Margin="306,90,0,0" VerticalAlignment="Top" Width="638" FontSize="14">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="ID" Width="0.3*" Header="ID" Binding="{Binding ID, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
+                <DataGridTextColumn x:Name="Num_ID" Width="*" Header="ID e Studentit" Binding="{Binding Num_ID, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="Name" Width="*" Header="Emri" Binding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="Surname" Width="*" Header="Mbiemri" Binding="{Binding Surname, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
+                <DataGridTextColumn x:Name="Email" Width="*" Header="Email" Binding="{Binding Email, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="Birthday" Width="*" Header="Datelindja" Binding="{Binding Birthday, StringFormat=dd.MM.yyyy, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="btnInsertS" Grid.ColumnSpan="2" Content="Regjistro" HorizontalAlignment="Left" Margin="78,394,0,0" VerticalAlignment="Top" Width="208" Height="34" Click="btnInsertS_Click" BorderBrush="#FFC5ADAD">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                    <GradientStop Color="#FF5FC15F" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Button x:Name="btnUpdateS" Grid.ColumnSpan="2" Content="Modifiko" HorizontalAlignment="Left" Margin="78,444,0,0" VerticalAlignment="Top" Width="208" Height="34" Click="btnUpdateS_Click">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                    <GradientStop Color="#FF4F7EC3" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+
+        <Button x:Name="btnClearS" Grid.ColumnSpan="2" Content="Rekord i Ri" HorizontalAlignment="Left" Margin="78,542,0,0" VerticalAlignment="Top" Width="208" Height="34" Click="btnClearS_Click">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                    <GradientStop Color="#FFAEA4A4" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+
+        <Button x:Name="btnDeleteS" Grid.ColumnSpan="2" Content="Fshij" HorizontalAlignment="Left" Margin="78,494,0,0" VerticalAlignment="Top" Width="208" Height="34" Click="btnDeleteS_Click">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                    <GradientStop Color="#FFFF716A" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <TextBox x:Name="txtSearchS" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="22" Margin="78,90,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="158" Background="#FFE0CACA"/>
+        <Button Grid.ColumnSpan="2" Content="Kerko" HorizontalAlignment="Left" Margin="240,90,0,0" VerticalAlignment="Top" Width="46" Background="{x:Null}" Foreground="Black" Click="btnSearchStudent_Click" Height="22"/>
+        <Label Content="ADMINISTRIMI I STUDENTËVE" HorizontalAlignment="Left" Margin="78,27,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Background="{x:Null}" BorderBrush="#FFC35454" OpacityMask="Black" Grid.ColumnSpan="2" Width="866" HorizontalContentAlignment="Center"/>
+        <Button x:Name="btnInsertPass" Grid.ColumnSpan="2" Content="Krijo fjalekalim" HorizontalAlignment="Left" Margin="736,394,0,0" VerticalAlignment="Top" Width="208" Height="34" Click="btnInsertPass_Click" BorderBrush="#FFC5ADAD">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                    <GradientStop Color="#FF5FC15F" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <PasswordBox x:Name="pBoxPassword" HorizontalAlignment="Left" Height="34" Margin="520,394,0,0" VerticalAlignment="Top" Width="160" Grid.ColumnSpan="2"/>
+        <Label Grid.ColumnSpan="2" Content="Fjalekalimi" HorizontalAlignment="Left" Margin="438,398,0,0" VerticalAlignment="Top" Height="24" Width="64"/>
+
+
+    </Grid>
+</Window>
+
+    

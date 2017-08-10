@@ -1,13 +1,9 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using MySql.Data.MySqlClient;
-
-
-
 
 
 namespace Evidence
@@ -24,34 +20,18 @@ namespace Evidence
         private static string idPerdoruesi;
         private static int idRoli;
         private bool conn = false;
-        
 
         //string myConnectionString = "Data Source=localhost;Initial Catalog=vijueshmeria;User ID=root;Password=";
 
         public MainWindow()
         {
             InitializeComponent();
-            /// Duhet me e fshi qet pjes .
-            Username.Text = "Artan";
-            Password.Password = "123456";
+            Username.Focus();
         }
 
         private void login_Click(object sender, RoutedEventArgs e)
         {
             checkLogin();
-        }
-
-        public static string Encode(string original)
-        {
-            MD5CryptoServiceProvider MD5Code = new MD5CryptoServiceProvider();
-            byte[] b = Encoding.UTF8.GetBytes(original);
-            b = MD5Code.ComputeHash(b);
-            StringBuilder sb = new StringBuilder();
-            foreach (byte ba in b)
-            {
-                sb.Append(ba.ToString("x2").ToLower());
-            }
-            return sb.ToString();
         }
 
         public bool ReadMyData(string myConnString, string user, string pass)
@@ -98,14 +78,16 @@ namespace Evidence
         private void Panel_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
+            {
                 checkLogin();
+            }
         }
 
         private void checkLogin()
         {
             username = Username.Text.ToString();
             password = Password.Password.ToString();
-            passwordMD5 = Encode(password);
+            passwordMD5 = Methods.Encode(password);
             if (username.Length == 0 || password.Length == 0)
             {
                 Error.Content = "Duhet t'i plotësoni të gjitha fushat!";
@@ -125,18 +107,25 @@ namespace Evidence
                 {
                     if (idRoli == 2)
                     {
-                        AdminWindow aW = new AdminWindow(idPerdoruesi);
+                        //AdminWindow aW = new AdminWindow(idPerdoruesi);
+                        EvidenceWindow aW = new EvidenceWindow(idPerdoruesi);
                         aW.Show();
                     }
                     else if (idRoli == 3)
                     {
-                        DekanisWindow dW = new DekanisWindow(idPerdoruesi);
-                        dW.Show();
+                        AdminPage dekaniWindow = new AdminPage(idPerdoruesi);
+                        dekaniWindow.Show();
                     }
                     else
                     {
-                        AdminWindow aW = new AdminWindow(idPerdoruesi);
-                        aW.Show();
+                        //InsertSubstition isW = new InsertSubstition();
+                        //isW.Show();
+                        //AdminWindow aW = new AdminWindow(idPerdoruesi);
+                        //aW.Show();
+                        //AdminPage dekaniWindow = new AdminPage(idPerdoruesi);
+                        //dekaniWindow.Show();
+                        //RaportiWindow rW = new RaportiWindow();
+                        //rW.Show();
                     }
                     this.Close();
                 }

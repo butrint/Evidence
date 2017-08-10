@@ -1,0 +1,45 @@
+﻿<Window x:Class="Evidence.AdminPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Evidence"
+        mc:Ignorable="d"
+        Title="Administrimi i Evidences" Height="500" Width="779.412" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="logo_e.png">
+    <Grid>
+        <StackPanel VerticalAlignment="Top">
+            <Menu Width="Auto" Height="20">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Çkyçu" Click="Çkyçu"/>
+                    <MenuItem Header="_Mbyll" Click="Close"/>
+                </MenuItem>
+
+                <MenuItem Header="_Evidenca" Click="Evidenca">
+
+                </MenuItem>
+
+
+
+
+                <MenuItem Header="_Zëvendësimet" HorizontalAlignment="Left" Width="90" Click="Zevendesimi"/>
+
+
+                <MenuItem Header="_Regjistrimet">
+                    <MenuItem Header="_Departamentet" HorizontalAlignment="Left" Width="180" Click="Departamentet"/>
+                    <MenuItem Header="_Fakultetet" HorizontalAlignment="Left" Width="150" Click="Fakultetet"/>
+                    <MenuItem Header="_Rolet" HorizontalAlignment="Left" Width="150" Click="Rolet"/>
+                    <MenuItem Header="_Lendet" HorizontalAlignment="Left" Width="150" Click="Lendet"/>
+                    <MenuItem Header="_Lloji i Lëndës" HorizontalAlignment="Left" Width="180" Click="Lush"/>
+                    <MenuItem Header="_Profesorët" HorizontalAlignment="Left" Width="150" Click="Users"/>
+                    <MenuItem Header="_Studentët" HorizontalAlignment="Left" Width="150" Click="Students"/>
+                </MenuItem>
+                <MenuItem Header="_Rreth" Click="Rreth">
+
+                </MenuItem>
+            </Menu>
+
+        </StackPanel>
+        <Image Margin="249,174,252,105" Source="logo evdienca.png" Stretch="Fill"/>
+        <Label Content="ADMINISTRIMI I EVIDENCES SË STUDENTËVE DHE PROFESORËVE" HorizontalAlignment="Left" Margin="73,69,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Background="{x:Null}" BorderBrush="#FFC35454" OpacityMask="Black"/>
+    </Grid>
+</Window>

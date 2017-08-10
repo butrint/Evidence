@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:Evidence"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <BitmapImage UriSource="admin.png" x:Key="scac"></BitmapImage>
     </Application.Resources>
 </Application>

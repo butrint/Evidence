@@ -5,12 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Evidence"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid x:Name="Panel" KeyDown="Panel_KeyDown">
-        <TextBox x:Name="Username" HorizontalAlignment="Left" Height="23" Margin="196,143,0,0" TextWrapping="Wrap" ToolTip="Username" VerticalAlignment="Top" Width="120"/>
-        <PasswordBox x:Name="Password" HorizontalAlignment="Left" Height="23" Margin="196,181,0,0" ToolTip="Password" PasswordChar="*" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="login" Content="Login" HorizontalAlignment="Left" Margin="196,225,0,0" VerticalAlignment="Top" Width="120" Click="login_Click"/>
+        Title="Forma e Kyçjes" Height="350" Width="525" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="logo_e.png">
+    <Grid x:Name="Panel" KeyDown="Panel_KeyDown" Background="#FFE4E1EA">
+
+        <TextBox x:Name="Username" HorizontalAlignment="Left" Height="23" Margin="171,136,0,0" TextWrapping="Wrap" ToolTip="Username" VerticalAlignment="Top" Width="162"/>
+        <PasswordBox x:Name="Password" HorizontalAlignment="Left" Height="23" Margin="171,174,0,0" ToolTip="Password" PasswordChar="*" VerticalAlignment="Top" Width="162"/>
+        <Button x:Name="login" Content="Login" HorizontalAlignment="Left" Margin="171,218,0,0" VerticalAlignment="Top" Width="162" Click="login_Click" Height="32" BorderBrush="White">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
         <Label x:Name="Error" Content="" Canvas.Left="10" Canvas.Top="443" FontFamily="Century Gothic" Foreground="Red" FontSize="13.333" Margin="10,267,10,10"/>
+        <Image Margin="214,39,213,191" Source="{StaticResource scac}" Stretch="Fill"/>
 
     </Grid>
 </Window>

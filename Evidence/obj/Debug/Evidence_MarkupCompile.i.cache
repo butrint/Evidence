@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\obj\Debug\
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence_Red\Evidence\obj\Debug\
 Evidence
 none
 false
 DEBUG;TRACE
-C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence\Evidence\App.xaml
-4-1853944122
+C:\Users\blacksn0w1\Documents\Visual Studio 2015\Projects\WPF Form\Evidence_Red\Evidence\App.xaml
+151374323797
 
-13154854315
-18-856242772
-AdminWindow.xaml;DekanisWindow.xaml;EvidenceWindow.xaml;MainWindow.xaml;
+241793007304
+18-903329898
+AdminPage.xaml;AdminWindow.xaml;DekanisWindow.xaml;DepartmentsWindow.xaml;EvidenceWindow.xaml;FacultiesWindow.xaml;InsertStudents.xaml;InsertSubstition.xaml;InsertUsers.xaml;LushWindow.xaml;MainWindow.xaml;RaportiWindow.xaml;RolesWindow.xaml;StudentsWindow.xaml;SubjectsWindow.xaml;
 
 False
 
